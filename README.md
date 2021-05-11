@@ -1,2 +1,0 @@
-# Tetris
-Simple Tetris game
