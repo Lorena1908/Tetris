@@ -385,16 +385,35 @@ def main(win):
 
 def main_menu(win):
     run = True
-    tetris_array = [[(255,255,255) for _ in range(25)] for _ in range(9)]
+    tetris_array = [[(0,0,0) for _ in range(25)] for _ in range(9)]
+    letter_positions = [(2,1), (2,2), (2,3), (3,2), (4,2), (5,2), (6,2), 
+    (2,5), (2,6), (2,7), (3,5), (4,5), (5,5), (6,5), (4,6), (4,7), (6,6), (6,7),
+    (2,9), (2,10), (2,11), (3,10), (4,10), (5,10), (6,10),
+    (2,13), (3,13), (4,13), (5,13), (6,13), (2,14), (4,14), (3,15), (5,15), (6,15),
+    (2,17), (2,18), (2,19), (3,18), (4,18), (5,18), (6,17), (6,18), (6,19),
+    (2,21), (2,22), (2,23), (3,21), (4,21), (6,21), (4,22), (4,23), (5,23), (6,23), (6,22)]
+    letter_color = random.choice(shape_colors)
 
     while run:
         win.fill((0,0,0))
-        draw_text_middle('Press Any Key to Play', 60, (255,255,255), win)
+        font = pygame.font.SysFont('comicsans', 60, bold=True)
+        text = font.render('Press Any Key to Play', 1, (255,255,255))
+        win.blit(text, (screen_width/2 - text.get_width()/2, 450))
 
-        # Draw cubes
+        # Draw the top and bottom lines and the TETRIS name
+        for x, y in letter_positions:
+            tetris_array[x][y] = letter_color
+
         for line in range(len(tetris_array)):
             for column in range(len(tetris_array[line])):
-                pygame.draw.rect(win, (255,255,255), (30 * column + 25, 30 * line + 50, 30,30))
+                if line in [0,8]:
+                    tetris_array[line][column] = (128,128,128)
+
+        # Draw black grid
+        for line in range(len(tetris_array)):
+            for column, color in enumerate(tetris_array[line]):
+                pygame.draw.rect(win, color, (30 * column + 25, 30 * line + 60, 30,30))
+                pygame.draw.rect(win, (0,0,0), (30 * column + 25, 30 * line + 60, 30,30), 1)
 
         pygame.display.update()
         for event in pygame.event.get():
