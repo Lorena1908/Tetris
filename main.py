@@ -385,6 +385,7 @@ def main(win):
 
 def main_menu(win):
     run = True
+
     while run:
         win.fill((0,0,0))
         draw_text_middle('Press Any Key to Play', 60, (255,255,255), win)
