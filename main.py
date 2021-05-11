@@ -122,6 +122,7 @@ T = [['.....',
  
 shapes = [S, Z, I, O, J, L, T]
 shape_colors = [(0, 255, 0), (255, 0, 0), (0, 255, 255), (255, 255, 0), (255, 165, 0), (0, 0, 255), (128, 0, 128)]
+# green, red, cyan, yellow, orange, blue, purple 
 # index 0 - 6 represent shape and colors
  
  
@@ -242,6 +243,12 @@ def draw_next_shape(shape, surface): # Draws the next shape to show the player w
             if column == '0':
                 pygame.draw.rect(surface, shape.color, (sx + j * block_size, sy + i * block_size, block_size, block_size), 0)
     surface.blit(label, (sx + 10, sy - 30))
+    pygame.draw.rect(surface, (255,255,255), (sx-5, sy-50, 150, 230), 2)
+
+    next_shape_grid = [[0 for _ in range(3)] for _ in range(4)]
+    for line in range(len(next_shape_grid)):
+        for column in range(len(next_shape_grid[line])):
+            pygame.draw.rect(surface, (0,0,0), (30 * column + 630, 30 * line + 300, 30,30), 1)
 
 def update_score(nscore):
     score = max_score()
@@ -307,16 +314,13 @@ def main(win):
     next_piece = get_shape()
     clock = pygame.time.Clock()
     fall_time = 0
-    fall_speed = 0.27
-    level_time = 0
+    fall_speed = 0.27 # in seconds
     score = 0
 
     while run:
         grid = create_grid(locked_positions)
         fall_time += clock.get_rawtime() # Get the amount of time since the last clock.tick
         clock.tick()
-
-        # fall_time and level_time are divided by 1000 to turn them into seconds
 
         # MAKE THE PIECE MOVE
         if fall_time/1000 >= fall_speed:
@@ -392,14 +396,6 @@ def main_menu(win):
     [(2,13), (3,13), (4,13), (5,13), (6,13), (2,14), (4,14), (3,15), (5,15), (6,15)],
     [(2,17), (2,18), (2,19), (3,18), (4,18), (5,18), (6,17), (6,18), (6,19)],
     [(2,21), (2,22), (2,23), (3,21), (4,21), (6,21), (4,22), (4,23), (5,23), (6,23), (6,22)]]
-    letter_color = random.choice(shape_colors)
-    next_color = ''
-
-    for index, color in enumerate(shape_colors):
-        if letter_color == shape_colors[index] and index <= len(shape_colors)-2:
-            next_color = shape_colors[index + 1]
-        else:
-            next_color = shape_colors[0]
 
     while run:
         win.fill((0,0,0))
@@ -410,7 +406,20 @@ def main_menu(win):
         # Draw the top and bottom lines and the TETRIS name
         for line in range(len(letter_positions)):
             for x, y in letter_positions[line]:
-                tetris_array[x][y] = letter_color
+                if line == 0:
+                    tetris_array[x][y] = (255, 0, 0)
+                elif line == 1:
+                    tetris_array[x][y] = (0, 255, 0)
+                elif line == 2:
+                    tetris_array[x][y] = (255, 165, 0)
+                elif line == 3:
+                    tetris_array[x][y] = (128, 0, 128)
+                elif line == 4:
+                    tetris_array[x][y] = (0, 255, 255)
+                elif line == 5:
+                    tetris_array[x][y] = (255, 255, 0)
+                else:
+                    tetris_array[x][y] = (255,255,255)
 
         for line in range(len(tetris_array)):
             for column in range(len(tetris_array[line])):
@@ -435,4 +444,4 @@ def main_menu(win):
 
 win = pygame.display.set_mode((screen_width, screen_height))
 pygame.display.set_caption('Tetris')
-main_menu(win) # start game
+main_menu(win)
