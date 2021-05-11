@@ -412,8 +412,8 @@ def main_menu(win):
         # Draw black grid
         for line in range(len(tetris_array)):
             for column, color in enumerate(tetris_array[line]):
-                pygame.draw.rect(win, color, (30 * column + 25, 30 * line + 60, 30,30))
-                pygame.draw.rect(win, (0,0,0), (30 * column + 25, 30 * line + 60, 30,30), 1)
+                pygame.draw.rect(win, color, (25 * column + 87.5, 25 * line + 100, 25,25))
+                pygame.draw.rect(win, (0,0,0), (25 * column + 87.5, 25 * line + 100, 25,25), 1)
 
         pygame.display.update()
         for event in pygame.event.get():
