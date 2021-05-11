@@ -385,9 +385,17 @@ def main(win):
 
 def main_menu(win):
     run = True
+    tetris_array = [[(255,255,255) for _ in range(25)] for _ in range(9)]
+
     while run:
         win.fill((0,0,0))
         draw_text_middle('Press Any Key to Play', 60, (255,255,255), win)
+
+        # Draw cubes
+        for line in range(len(tetris_array)):
+            for column in range(len(tetris_array[line])):
+                pygame.draw.rect(win, (255,255,255), (30 * column + 25, 30 * line + 50, 30,30))
+
         pygame.display.update()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
